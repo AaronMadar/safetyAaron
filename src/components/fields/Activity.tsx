@@ -3,7 +3,7 @@ import type { JSX } from "react";
 export default function Activity(): JSX.Element {
 
     return (
-        <section>
+        <section className="">
         <label htmlFor="activity">Your activity</label>
         <select id="activity">
             <option value="default">בחר</option>
