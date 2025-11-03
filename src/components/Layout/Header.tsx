@@ -4,10 +4,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import { LightMode, DarkMode } from '@mui/icons-material';
-import {lightTheme,darkTheme} from '../../Theme/DarkLightTheme'
+import { LightMode, DarkMode } from '@mui/icons-material'
 
-export default function Header({ children, theme, toggleTheme }: any) {
+
+
+export default function Header({ children,theme,toggleTheme }: any) {
+
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static" sx={{ marginBottom: '2em' }}>
@@ -25,7 +28,7 @@ export default function Header({ children, theme, toggleTheme }: any) {
                         Safety Form
                     </Typography>
                     <IconButton color="inherit" onClick={toggleTheme}>
-                        {theme === lightTheme ? <LightMode /> : <DarkMode/>}
+                        {theme.palette.mode === 'light' ? <LightMode /> : <DarkMode/>}
                     </IconButton>
                 </Toolbar>
             </AppBar>
