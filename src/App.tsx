@@ -22,7 +22,7 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <Header theme={theme} toggleTheme={toggleTheme}>
-        <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "column", md: "row", dl: 'row' }, gap: 2, minHeight: '100vh', paddingTop: 4, color: "primary" }}>
+        <Box sx={{ display: "flex", flexDirection: { xs: "column", sm: "column", md: "row", dl: 'row' }, gap: 2, minHeight: '100vh', paddingTop: 4, backgroundColor: 'background.default', }}>
 
           <Box sx={{ flex: 1, margin: 2, display: "flex", flexDirection: "column", gap: 2, justifyContent: 'top', }}>
             <UnityField />
@@ -31,13 +31,14 @@ export default function App() {
             <Unitactivity />
             <Activity />
           </Box>
+          
           <Box sx={{ flex: 1, margin: 2, display: "flex", flexDirection: "column", gap: 2 }}>
             <KindOfIncident />
             <Place />
             <SeverityIncident />
             <Damage />
             <Weather />
-            <Button variant="contained" endIcon={<SendIcon />} sx={{ width: 'fit-content', alignSelf: { xs: 'center', sm: 'flex-end' }, marginTop: 2 }}>
+            <Button variant="contained"  endIcon={<SendIcon />} sx={{ width: 'fit-content', alignSelf: { xs: 'center', sm: 'flex-end' }, marginTop: 2 }}>
               Send
             </Button>
           </Box>

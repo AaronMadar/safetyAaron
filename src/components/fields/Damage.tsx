@@ -4,10 +4,9 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  // SelectChangeEvent,
 } from "@mui/material";
 import SeverityInjurie from "./SeverityInjurie";
-import { Margin } from "@mui/icons-material";
+
 
 
 
