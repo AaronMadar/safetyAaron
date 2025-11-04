@@ -1,19 +1,32 @@
-import type { JSX } from "react";
+import { useState } from 'react';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 
-export default function Activity(): JSX.Element {
+export default function Activity()  {
+  const [activity, setActivity] = useState('default');
 
-    return (
-        <section className="">
-        <label htmlFor="activity">Your activity</label>
-        <select id="activity">
-            <option value="default">בחר</option>
-            <option value="">פעילות מבצעית/לחימה</option>
-            <option value="">אימון</option>
-            <option value="">הכשרה</option>
-            <option value="">שגרה</option>
-            <option value="">פנאי</option>
-            <option value="">חופשה</option>
-        </select>
-        </section>
-    )
-}   
+  return (
+    <section>
+      <FormControl fullWidth>
+        <InputLabel id="activity-label">Your activity</InputLabel>
+        <Select
+          labelId="activity-label"
+          id="activity"
+          value={activity}
+          label="Your activity"
+          onChange={(e) => setActivity(e.target.value)}
+        >
+          <MenuItem value="default">בחר</MenuItem>
+          <MenuItem value="operational">פעילות מבצעית/לחימה</MenuItem>
+          <MenuItem value="training">אימון</MenuItem>
+          <MenuItem value="education">הכשרה</MenuItem>
+          <MenuItem value="routine">שגרה</MenuItem>
+          <MenuItem value="leisure">פנאי</MenuItem>
+          <MenuItem value="vacation">חופשה</MenuItem>
+        </Select>
+      </FormControl>
+    </section>
+  );
+}

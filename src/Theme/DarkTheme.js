@@ -1,16 +1,13 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
-    primary: {
-      main: '#90caf9',
-    },
-    background: {
-      default: '#121212',
-      paper: '#1e1e1e',
-    },
+      primary: {
+      main: "#1f1925ff", // Violet clair pour un bon contraste
+      contrastText: "#ffffffff", // Texte blanc pour lisibilité
+    },    
   },
-});
-
+  
+      })
+   
 export default darkTheme;
