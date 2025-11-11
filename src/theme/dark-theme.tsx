@@ -5,8 +5,8 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: "#1f1925ff",
-      contrastText: "#ffffffff",
+      main: "#ffffffff",
+      contrastText: "#ffffffff !important",
     },
     background: {
       default: '#121212',
@@ -14,6 +14,9 @@ const darkTheme = createTheme({
     },
   },
   components: {
+    MuiButton:{
+      color: '#121212',
+    },
     MuiRadio: {
       styleOverrides: {
         root: {

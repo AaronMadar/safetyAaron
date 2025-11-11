@@ -1,16 +1,20 @@
 // ThemeContext.jsx
 import { createContext, useState } from "react";
-import lightTheme from "../Theme/LightTheme";
-import darkTheme from "../Theme/DarkTheme";
+import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
+import lightTheme from "@/theme/light-theme"
+import darkTheme from "@/theme/dark-theme";
+
 
 // Provide a safe default so consumers (TSX files) get a known shape
 export const ThemeContext = createContext({
   theme: lightTheme,
-  toggleTheme: () => {},
-  
+  toggleTheme: () => { },
+
 });
 
-export const ThemeProviderCustom = ({ children }) => {
+
+export default function ThemeProviderCustom({ children }: any) {
+
   const [theme, setTheme] = useState(lightTheme);
 
   const toggleTheme = () => {
@@ -19,7 +23,11 @@ export const ThemeProviderCustom = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+
+      </MuiThemeProvider>
     </ThemeContext.Provider>
   );
 };
