@@ -1,11 +1,14 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { DataForm } from '@/context/dataform-context';
 
-export default function Activity()  {
-  const [activity, setActivity] = useState('ברירת מחדל');
+export default function Activity() {
+
+
+  const { data, handleValue } = useContext(DataForm)
 
   return (
     <section>
@@ -14,13 +17,18 @@ export default function Activity()  {
         <Select
           labelId="activity-label"
           id="activity"
-          value={activity}
+          value={data.activity || ""}
           label="הפעילות שלך"
-          defaultValue=''
-          onChange={(e) => setActivity(e.target.value)}
+          onChange={(e) => {
+            handleValue("acitvity", e.target.value)
+          }
+          }
           required
         >
-          <MenuItem value="ברירת מחדל" disabled>בחר</MenuItem>
+
+          <MenuItem value="" disabled>
+            בחר
+          </MenuItem>
           <MenuItem value="פעילות מבצעית/לחימה">פעילות מבצעית/לחימה</MenuItem>
           <MenuItem value="אימון">אימון</MenuItem>
           <MenuItem value="הכשרה">הכשרה</MenuItem>

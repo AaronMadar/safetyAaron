@@ -3,13 +3,21 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import { useContext } from 'react';
+import { DataForm } from '@/context/dataform-context';
 
-export default function   DateField() {
+export default function DateField() {
+
+  const {handleValue} = useContext(DataForm)
   return (
 
     <LocalizationProvider dateAdapter={AdapterDayjs} >
       <DemoContainer components={['DatePicker']}   >
-        <DatePicker label={<span dir='rtl'>תאריך האירוע</span>} minDate={dayjs()}  sx={{textAlign:'right' , direction:'ltr'}  } />
+        <DatePicker
+         label={<span dir='rtl'>תאריך האירוע</span>}
+         minDate={dayjs()} 
+         sx={{textAlign:'right' , direction:'ltr'}}
+        onChange={(value) => { handleValue('date', value); }} />
       </DemoContainer>
     </LocalizationProvider>
 

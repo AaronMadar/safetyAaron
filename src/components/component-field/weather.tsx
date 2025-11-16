@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { DataForm } from "@/context/dataform-context";
 
 export default function Weather(): React.ReactElement {
 
-    const [weather,setWeather] = useState("ברירת מחדל")
+  
+  const { data, handleValue } = useContext(DataForm)
   return (
     <section dir="rtl">
       <FormControl fullWidth>
@@ -17,10 +19,11 @@ export default function Weather(): React.ReactElement {
           labelId="weather-label"
           id="weather"
           name="מזג האוויר"
-          label='מזג האוויר'  
-          defaultValue={weather}
+          label='מזג האוויר'
+          value={data.weather || "" }
+          onChange={(e)=> handleValue('weather', e.target.value)}
         >
-          <MenuItem value="ברירת מחדל" disabled>בחר</MenuItem>
+          <MenuItem value="" disabled>בחר</MenuItem>
           <MenuItem value="שרב / עומס חום">שרב / עומס חום</MenuItem>
           <MenuItem value="שלג">שלג</MenuItem>
           <MenuItem value="סופת חול">סופת חול</MenuItem>

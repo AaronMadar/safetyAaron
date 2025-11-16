@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { DataForm } from '@/context/dataform-context';
 
 export default function KindOfIncident() {
-  const [kind, setKind] = useState('ברירת מחדל');
+
+  const { data, handleValue } = useContext(DataForm)
 
   return (
     <section dir="rtl">
@@ -19,12 +21,13 @@ export default function KindOfIncident() {
         <Select
           labelId="kind-label"
           id="kind"
-          value={kind}
+          value={data.kindOfIncident}
           label='סוג האירוע'
-          defaultValue={kind}
-          onChange={(e) => setKind(e.target.value)}
+          onChange={(e) => {
+            handleValue('kindOfIncident', e.target.value)
+          }}
         >
-          <MenuItem value="ברירת מחדל" disabled>בחר</MenuItem>
+          <MenuItem value="">בחר</MenuItem>
           <MenuItem value="נשק ומקלעים">נשק ומקלעים</MenuItem>
           <MenuItem value="דרכים">דרכים</MenuItem>
           <MenuItem value="תחמושת">תחמושת</MenuItem>
