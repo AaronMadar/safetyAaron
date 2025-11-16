@@ -3,8 +3,12 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import { useContext } from 'react';
+import { DataForm } from '@/context/dataform-context';
 
 export default function RowRadioButtonsGroup() {
+
+  const {handleValue} = useContext(DataForm)
   return (
     <FormControl dir="rtl">
       <FormLabel
@@ -17,6 +21,9 @@ export default function RowRadioButtonsGroup() {
         row
         aria-labelledby="severity-incident"
         name="row-radio-buttons-group"
+        onChange={(_e: React.ChangeEvent<HTMLInputElement>, value: string) =>
+          handleValue('severity-incident', value)
+        }
       >
         <FormControlLabel value="קל" control={<Radio />} label="קל" />
         <FormControlLabel value="בינוני" control={<Radio />} label="בינוני" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   FormControl,
   InputLabel,
@@ -6,12 +6,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import SeverityInjurie from "./severity-injurie";
+import { DataForm } from "@/context/dataform-context";
 
 export default function Damage() {
   const [injuries, setInjuries] = useState<boolean>(false);
-  const [damage , setDamage] = useState("ברירת מחדל")
+  const { data, handleValue } = useContext(DataForm)
 
-  function handleSelection(e: SelectChangeEvent<string>) {
+  function handleInjuries(e: SelectChangeEvent<string>) {
     const val = e.target.value;
     if (val === "יש נפגעים, אין נזק" || val === "יש נפגעים, יש נזק") {
       setInjuries(true);
@@ -28,11 +29,14 @@ export default function Damage() {
           labelId="damage-label"
           id="Damage"
           label="תוצאה של נזק"
-          defaultValue={damage}
-          onChange={handleSelection}
+          value={data.damage}
+          onChange={(e) => {
+            handleInjuries(e);
+            handleValue("damage", e.target.value)
+          }}
           required
         >
-          <MenuItem value="ברירת מחדל" disabled>בחר</MenuItem>
+          <MenuItem value="" >בחר</MenuItem>
           <MenuItem value="אין נפגעים, אין נזק">אין נפגעים, אין נזק</MenuItem>
           <MenuItem value="אין נפגעים, יש נזק">אין נפגעים, יש נזק</MenuItem>
           <MenuItem value="יש נפגעים, אין נזק">יש נפגעים, אין נזק</MenuItem>
