@@ -1,2 +1,25 @@
 # safetyAaron
-This code represents a safety event form used to report an incident. It collects key details about how the event occurred, including its severity and conditions, to support proper documentation and analysis.
+
+הקוד בפרויקט זה מייצג טופס דיווח על אירוע בטיחות.  
+הטופס מאפשר להזין פרטים חשובים לגבי אופן התרחשות האירוע, חומרתו והתנאים שסביבו, במטרה לתעד ולנתח את המידע בצורה מסודרת.
+
+## הפעלת האפליקציה
+כדי להפעיל את האפליקציה יש להריץ את הפקודה:
+
+```bash
+npm run dev
+
+
+
+
+עמודי האפליקציה
+
+האפליקציה כוללת שני עמודים:
+
+טופס הדיווח על האירוע
+זמין בכתובת:
+http://localhost:5173/
+
+לוח הבקרה (Dashboard) המציג את רשימת האירועים שדווחו
+זמין בכתובת:
+http://localhost:5173/dashboard
