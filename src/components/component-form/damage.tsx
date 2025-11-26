@@ -5,6 +5,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import type { SelectChangeEvent } from "@mui/material/Select";
 import SeverityInjurie from "./severity-injurie";
 import { DataForm } from "@/context/dataform-context";
 
@@ -12,8 +13,8 @@ export default function Damage() {
   const [injuries, setInjuries] = useState<boolean>(false);
   const { data, handleValue } = useContext(DataForm)
 
-  function handleInjuries(e: SelectChangeEvent<string>) {
-    const val = e.target.value;
+  function handleInjuries(e: SelectChangeEvent) {
+    const val:string = e.target.value;
     if (val === "יש נפגעים, אין נזק" || val === "יש נפגעים, יש נזק") {
       setInjuries(true);
     } else {

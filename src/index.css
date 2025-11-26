@@ -1,5 +1,40 @@
-body{
-  margin: 0 auto;
-  color: white;
+* {
+  box-sizing: border-box;
+}
 
-}       
+body{
+  margin: 0;
+  /* Toujours afficher la scrollbar verticale pour éviter le "layout shift"
+     quand un contenu (ex: un Accordion) provoque l'apparition/disparition du
+     scrollbar. Cela empêche la largeur 100% de se recalculer et le saut.
+  */
+ 
+  /* Amélioration optionnelle : garde l'espace de la scrollbar stable
+     dans les navigateurs qui supportent scrollbar-gutter */
+  
+  width: 100%;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* pour mettre les label a droite dans le lightmode  */
+
+.css-1i8exen-MuiFormLabel-root-MuiInputLabel-root  {
+
+
+    position: absolute;
+    right: 50px;
+
+}
+
+/* pour mettre les labels a droite dans le darkmode */
+.css-c0j310-MuiFormLabel-root-MuiInputLabel-root {
+
+  position: absolute;
+  right: 50px;
+}

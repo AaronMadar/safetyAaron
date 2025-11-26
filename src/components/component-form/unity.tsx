@@ -6,16 +6,18 @@ import { useContext } from 'react';
 
 export default function UnityField() {
 
-  const {handleValue} = useContext(DataForm)
+  const {handleValue, data} = useContext(DataForm)
   return (
     <Box
       component="form"
-      sx={{ '& > :not(style)': { width: '28ch' } }}
+      sx={{ '& > :not(style)': { width: '28ch' }  }}
       noValidate
       autoComplete="off"
+      className='unity'
       
     >
-      <TextField id="outlined-basic" label={<span dir='rtl' >שם יחידתך</span>} variant="outlined" onChange={(e)=>handleValue("unity",e.target.value)}/>
+      <TextField id="outlined-basic" label={<span dir='rtl' >שם יחידתך</span>} variant="outlined" value={data.unity} onChange={(e)=>handleValue("unity",e.target.value) } 
+      />
     </Box>
   );
 } 

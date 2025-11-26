@@ -1,10 +1,10 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { DataForm } from "@/context/dataform-context";
 
 export default function Weather(): React.ReactElement {
 
-  
+
   const { data, handleValue } = useContext(DataForm)
   return (
     <section dir="rtl">
@@ -20,8 +20,8 @@ export default function Weather(): React.ReactElement {
           id="weather"
           name="מזג האוויר"
           label='מזג האוויר'
-          value={data.weather || "" }
-          onChange={(e)=> handleValue('weather', e.target.value)}
+          value={data.weather || ""}
+          onChange={(e) => handleValue('weather', e.target.value)}
         >
           <MenuItem value="" disabled>בחר</MenuItem>
           <MenuItem value="שרב / עומס חום">שרב / עומס חום</MenuItem>

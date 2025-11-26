@@ -1,4 +1,4 @@
-  import { useContext, useState } from 'react';
+  import { useContext } from 'react';
   import FormControl from '@mui/material/FormControl';
   import FormLabel from '@mui/material/FormLabel';
   import FormGroup from '@mui/material/FormGroup';
@@ -7,8 +7,8 @@
   import { DataForm } from '@/context/dataform-context';
 
   export default function Place() {
-    const [selectedPlaces, setSelectedPlaces] = useState<string[]>([]);
-    const {handleValue } = useContext(DataForm);
+    const { data, handleValue } = useContext(DataForm);
+    const selectedPlaces = Array.isArray(data.place) ? data.place : [];
 
     
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,9 +21,8 @@
       updatedPlaces = selectedPlaces.filter((place) => place !== name);
     }
 
-    setSelectedPlaces(updatedPlaces);
     handleValue("place", updatedPlaces);
-    console.log("place", updatedPlaces);
+    
     
   }; 
 

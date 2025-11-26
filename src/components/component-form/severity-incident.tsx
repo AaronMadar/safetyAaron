@@ -8,7 +8,7 @@ import { DataForm } from '@/context/dataform-context';
 
 export default function RowRadioButtonsGroup() {
 
-  const {handleValue} = useContext(DataForm)
+  const {handleValue, data} = useContext(DataForm)
   return (
     <FormControl dir="rtl">
       <FormLabel
@@ -21,8 +21,9 @@ export default function RowRadioButtonsGroup() {
         row
         aria-labelledby="severity-incident"
         name="row-radio-buttons-group"
+        value={data.severityIncident || ""}
         onChange={(_e: React.ChangeEvent<HTMLInputElement>, value: string) =>
-          handleValue('severity-incident', value)
+          handleValue('severityIncident', value)
         }
       >
         <FormControlLabel value="קל" control={<Radio />} label="קל" />

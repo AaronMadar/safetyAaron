@@ -8,16 +8,17 @@ import { DataForm } from '@/context/dataform-context';
 
 export default function DateField() {
 
-  const {handleValue} = useContext(DataForm)
+  const { handleValue, data } = useContext(DataForm)
   return (
 
     <LocalizationProvider dateAdapter={AdapterDayjs} >
       <DemoContainer components={['DatePicker']}   >
         <DatePicker
-         label={<span dir='rtl'>תאריך האירוע</span>}
-         minDate={dayjs()} 
-         sx={{textAlign:'right' , direction:'ltr'}}
-        onChange={(value) => { handleValue('date', value); }} />
+          label={<span dir='rtl'>תאריך האירוע</span>}
+          minDate={dayjs()}
+          value={data.date ? dayjs(data.date) : null}
+          sx={{ textAlign: 'right', direction: 'ltr' }}
+          onChange={(value) => { handleValue('date', value ? value.toISOString() : ""); }} />
       </DemoContainer>
     </LocalizationProvider>
 
