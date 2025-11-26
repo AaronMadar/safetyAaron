@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -19,10 +19,9 @@ export default function Activity() {
           id="activity"
           value={data.activity || ""}
           label="הפעילות שלך"
-          onChange={(e) => {
-            handleValue("acitvity", e.target.value)
-          }
-          }
+          onChange={(e) => handleValue("activity", e.target.value)}
+
+          
           required
         >
 

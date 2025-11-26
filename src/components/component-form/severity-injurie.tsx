@@ -7,7 +7,7 @@ export default function SeverityInjurie(): React.ReactElement {
   const { data, handleValue } = useContext(DataForm)
 
   return (
-    <section dir="ltr">
+    <section dir="rtl">
       <FormControl fullWidth sx={{ marginTop: 2 }}>
         <InputLabel id="severity-injury-label">חומרת הפציעות</InputLabel>
         <Select
@@ -21,13 +21,13 @@ export default function SeverityInjurie(): React.ReactElement {
           }}
 
         >
-          <MenuItem value="">בחר</MenuItem>
-          <MenuItem value="no_injury">ללא פגיעה</MenuItem>
-          <MenuItem value="minor_no_hospital">פגוע קל (ללא אשפוז)</MenuItem>
-          <MenuItem value="minor_hospitalized">פגוע קל (שאושפז)</MenuItem>
-          <MenuItem value="moderate">פגוע בינוני</MenuItem>
-          <MenuItem value="severe_critical">פגוע קשה/אנוש</MenuItem>
-          <MenuItem value="fatal">חלל</MenuItem>
+          <MenuItem value="בחר">בחר</MenuItem>
+          <MenuItem value="ללא פגיעה">ללא פגיעה</MenuItem>
+          <MenuItem value="פגוע קל (ללא אשפוז)">פגוע קל (ללא אשפוז)</MenuItem>
+          <MenuItem value="פגוע קל (שאושפז)">פגוע קל (שאושפז)</MenuItem>
+          <MenuItem value="פגוע בינוני">פגוע בינוני</MenuItem>
+          <MenuItem value="פגוע קשה/אנוש">פגוע קשה/אנוש</MenuItem>
+          <MenuItem value="חלל">חלל</MenuItem>
         </Select>
       </FormControl>
     </section>
