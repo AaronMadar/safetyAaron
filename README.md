@@ -23,3 +23,15 @@ http://localhost:5173/
 לוח הבקרה (Dashboard) המציג את רשימת האירועים שדווחו
 זמין בכתובת:
 http://localhost:5173/dashboard
+
+
+
+טכנולוגיות בשימוש
+
+JavaScript
+
+TypeScript
+
+React
+
+MUI (Material UI)
