@@ -9,7 +9,19 @@ import { useContext } from 'react';
 import { ThemeContext } from '@/context/theme-context';
 import SearchBar from '../component-dashboard/search-bar';
 
-export default function Header({ title, showSearch }: any) {
+/**
+ * COMMENT TYPER LES PROPS D'UN COMPOSANT :
+ * 
+ * 1. On crée une interface qui décrit les props
+ * 2. On l'utilise dans les paramètres de la fonction
+ * 3. TypeScript vérifie automatiquement que les props passées correspondent
+ */
+interface HeaderProps {
+  title: string;
+  showSearch: boolean;
+}
+
+export default function Header({ title, showSearch }: HeaderProps) {
 
     const { theme, toggleTheme } = useContext(ThemeContext);
 

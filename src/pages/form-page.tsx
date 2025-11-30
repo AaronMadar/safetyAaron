@@ -38,7 +38,7 @@ export default function PageForm() {
     handleValue("date", "");
     handleValue("description", "");
     handleValue("kindOfIncident", "");
-    handleValue("place", "");
+    handleValue("place", []); // place est un array, pas un string !
     handleValue("severityIncident", "");
     handleValue("severityInjurie", "");
     handleValue("unitActivity", "");
@@ -72,6 +72,8 @@ export default function PageForm() {
             Send
           </Button>
         </Box>
+
+        
 
       </Box>
 
