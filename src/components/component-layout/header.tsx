@@ -19,11 +19,14 @@ import SearchBar from '../component-dashboard/search-bar';
 interface HeaderProps {
   title: string;
   showSearch: boolean;
+  onSearch?: (term: string) => void ; // fonction optionnelle pour la recherche
 }
 
-export default function Header({ title, showSearch }: HeaderProps) {
+export default function Header({ title, showSearch , onSearch }: HeaderProps) {
 
     const { theme, toggleTheme } = useContext(ThemeContext);
+
+   
 
     return (
         <AppBar position="static">
@@ -45,7 +48,11 @@ export default function Header({ title, showSearch }: HeaderProps) {
                         alt='logo'
                         sx={{ width: 50, height: 50 }}
                     />
-                    {showSearch && <SearchBar />}
+                    {showSearch && (
+                        <Box sx={{ display: { xs: 'none', sm: 'block' } } } >
+                            <SearchBar onSearch={onSearch} />
+                        </Box>
+                    )}
                 </Box>
 
                 {/* Titre centré */}
