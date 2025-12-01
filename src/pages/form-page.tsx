@@ -41,7 +41,7 @@ export default function PageForm() {
     handleValue("place", []); // place est un array, pas un string !
     handleValue("severityIncident", "");
     handleValue("severityInjurie", "");
-    handleValue("unitActivity", "");
+    handleValue("unitActivity", "");    
     handleValue("unity", "");
     handleValue("weather", "");
   };

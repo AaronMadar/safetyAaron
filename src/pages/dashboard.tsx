@@ -3,7 +3,7 @@ import Header from "@/components/component-layout/header";
 import DbContext from "@/context/db-context";
 import { boxCardCss } from "@/style/style";
 import { Box } from "@mui/material";
-import { useContext } from "react";
+import { useContext , useState } from "react";
 import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
 
 /**
@@ -16,12 +16,46 @@ import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
  */
 export default function DashBoard() {
   const { dbLocal } = useContext(DbContext);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+
+  const onSearch = (term: string) => {
+    setSearchTerm(term);
+  }
+
+  const searchContent = () => {
+  const term = searchTerm.toLowerCase().trim();
+  if (!term) return dbLocal;
+
+  return dbLocal.filter(item => {
+    // Convertit le champ place en string searchable, peu importe si c'est string ou array
+    const placeText = Array.isArray(item.place) 
+      ? item.place.join(' ').toLowerCase() 
+      : (item.place || '');
+
+    const searchIn = [
+      item.activity,
+      item.damage,
+      item.description,
+      item.kindOfIncident,
+      placeText,
+      item.severityIncident,
+      item.severityInjurie,
+      item.unitActivity,
+      item.unity,
+      item.weather
+    ].join(' ').toLowerCase();
+
+    return searchIn.includes(term);
+  });
+};
+   
+  
 
   return (
     <>
-      <Header title={'רשימת האירועים'} showSearch={true} />
+      <Header title={'רשימת האירועים'} showSearch={true} onSearch={onSearch}/>
       <Box sx={boxCardCss}>
-        {dbLocal.map((x: SafetyIncidentWithId) => (
+        {searchContent().map((x: SafetyIncidentWithId) => (
           <Card
             key={x.id}
             activity={x.activity} 
