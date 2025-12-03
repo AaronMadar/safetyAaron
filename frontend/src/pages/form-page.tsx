@@ -23,27 +23,22 @@ import DbContext from "@/context/db-context";
 export default function PageForm() {
 
   const { add } = useContext(DbContext);
-  const { data, handleValue } = useContext(DataForm);
+  const { data, resetForm } = useContext(DataForm);
+
 
   const handleSubmit = () => {
     if (!data.unity || !data.date || !data.description || !data.kindOfIncident || !data.place || !data.severityIncident || !data.damage || !data.weather || !data.unitActivity || !data.activity) {
+
       alert("אנא מלא את כל השדות בטופס לפני השליחה.");
       return;
     }
     add(data);
+    resetForm();
 
-    // Réinitialiser le formulaire
-    handleValue("activity", "");
-    handleValue("damage", "");
-    handleValue("date", "");
-    handleValue("description", "");
-    handleValue("kindOfIncident", "");
-    handleValue("place", []); // place est un array, pas un string !
-    handleValue("severityIncident", "");
-    handleValue("severityInjurie", "");
-    handleValue("unitActivity", "");    
-    handleValue("unity", "");
-    handleValue("weather", "");
+    alert("האירוע נשלח בהצלחה!")
+
+
+
   };
 
   return (
@@ -71,9 +66,10 @@ export default function PageForm() {
             onClick={handleSubmit}>
             Send
           </Button>
+
         </Box>
 
-        
+
 
       </Box>
 

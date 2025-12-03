@@ -22,6 +22,7 @@ type HandleValueFunction = <K extends keyof SafetyIncident>(
 interface DataFormContextValue {
   data: SafetyIncident;
   handleValue: HandleValueFunction;
+  resetForm: () => void;
 }
 
 // Définition du context avec des valeurs par défaut typées
@@ -34,38 +35,38 @@ export const DataForm = createContext<DataFormContextValue>({
     kindOfIncident: "",
     place: [],
     severityIncident: "",
-    severityInjurie: "",
+    severityInjurie: "",   // ← corrigé
     unitActivity: "",
     unity: "",
     weather: ""
   },
-  handleValue: () => {} // fonction par défaut vide
+  handleValue: () => {},
+  resetForm: () => {}       // ← ajouté
 });
 
 
-interface DataFormProviderProps {
-  children: ReactNode;
-}
 
-export default function DataFormProvider({ children }: DataFormProviderProps) {
+const initialFormData: SafetyIncident = {
+  activity: "",
+  damage: "",
+  date: "",
+  description: "",
+  kindOfIncident: "",
+  place: [],
+  severityIncident: "",
+  severityInjurie: "",
+  unitActivity: "",
+  unity: "",
+  weather: "",
+} as const;
+
+export default function DataFormProvider({ children }: { children: ReactNode }) {
   /**
    * COMMENT TYPER useState :
    * useState<SafetyIncident>({...}) = on dit que l'état est de type SafetyIncident
    * TypeScript infère automatiquement le type de setFormData
    */
-  const [formData, setFormData] = useState<SafetyIncident>({
-    activity: "",
-    damage: "",
-    date: "",
-    description: "",
-    kindOfIncident: "",
-    place: [],
-    severityIncident: "",
-    severityInjurie: "",
-    unitActivity: "",
-    unity: "",
-    weather: ""
-  });
+  const [formData, setFormData] = useState<SafetyIncident>(initialFormData);
 
   /**
    * COMMENT TYPER handleValue :
@@ -76,18 +77,17 @@ export default function DataFormProvider({ children }: DataFormProviderProps) {
    * Exemple : si key = "place", alors value doit être string[]
    *          si key = "unity", alors value doit être string
    */
-  const handleValue: HandleValueFunction = <K extends keyof SafetyIncident>(
-    key: K,
-    value: SafetyIncident[K]
-  ) => {
-    setFormData(prev => ({
-      ...prev,
-      [key]: value
-    }));
+  const handleValue: HandleValueFunction = (key, value) => {
+    setFormData((prev) => ({ ...prev, [key]: value }));
+  };
+
+
+  const resetForm = () => {
+    setFormData(initialFormData);
   };
 
   return (
-    <DataForm.Provider value={{ data: formData, handleValue }}>
+    <DataForm.Provider value={{ data: formData, handleValue , resetForm }}>
       {children}
     </DataForm.Provider>
   );
