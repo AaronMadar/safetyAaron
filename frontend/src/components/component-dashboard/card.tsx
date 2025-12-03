@@ -18,7 +18,7 @@ export default function Card({
   unitActivity,
   unity,
   weather,
-}: CardProps) {
+}: CardProps ) {
   return (
     <Accordion sx={{ width: "calc(45vw - (100vw - 100%))", direction: "rtl" ,}}>
       <AccordionSummary

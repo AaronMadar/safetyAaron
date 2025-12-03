@@ -22,6 +22,11 @@ html {
   overflow-y: auto;
 }
 
+ html {
+  overflow-y: scroll;
+  /* scrollbar-gutter: stable both-edges; */
+}
+
 /* pour mettre les label a droite dans le lightmode  */
 
 .css-1i8exen-MuiFormLabel-root-MuiInputLabel-root  {
