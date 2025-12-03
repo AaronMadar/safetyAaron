@@ -52,7 +52,7 @@ export default function DashBoard() {
   
 
   return (
-    <>
+    <Box sx={{ scrollbarGutter: "stable both-edges" }} >
       <Header title={'רשימת האירועים'} showSearch={true} onSearch={onSearch}/>
       <Box sx={boxCardCss}>
         {searchContent().map((x: SafetyIncidentWithId) => (
@@ -72,6 +72,6 @@ export default function DashBoard() {
           />
         ))}
       </Box>
-    </>
+    </Box>
   );
 }
