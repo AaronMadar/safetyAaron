@@ -12,9 +12,12 @@ import SeverityIncident from "@/components/form/severity-incident";
 import SendIcon from '@mui/icons-material/Send';
 import DateField from "@/components/form/date";
 import { mainBoxCss, innerLeftBoxCss, innerRightBoxCss, buttonSubmitCss } from "@/style/style";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DataForm } from "@/context/DataformContext";
 import DbContext from "@/context/DbContext";
+import type { snackType } from "@/types/snack-type";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 
 
@@ -24,21 +27,40 @@ export default function PageForm() {
 
   const { add } = useContext(DbContext);
   const { data, resetForm } = useContext(DataForm);
+  const [snack, setSnack] = useState<snackType>({
+    open: false,
+    message: "",
+    severity: "success",
+  });
 
 
   const handleSubmit = () => {
-    if (!data.unity || !data.date || !data.description || !data.kindOfIncident || !data.place || !data.severityIncident || !data.damage || !data.weather || !data.unitActivity || !data.activity) {
+    if (!data.unity || !data.date || !data.description || !data.kindOfIncident || data.place.length === 0  || !data.severityIncident || !data.damage || !data.weather || !data.unitActivity || !data.activity) {
 
-      alert("אנא מלא את כל השדות בטופס לפני השליחה.");
+      setSnack({
+        open: true,
+        message: "אנא מלא את כל השדות החובה לפני השליחה.",
+        severity: "error"
+      });
       return;
     }
+
     add(data);
     resetForm();
+    setSnack({
+      open: true,
+      message: "האירוע נשלח בהצלחה!",
+      severity: "success"
+    });
 
-    alert("האירוע נשלח בהצלחה!")
 
 
 
+
+  };
+
+  const handleClose = () => {
+    setSnack({ ...snack, open: false });
   };
 
   return (
@@ -66,6 +88,16 @@ export default function PageForm() {
             onClick={handleSubmit}>
             Send
           </Button>
+          <Snackbar
+            open={snack.open}
+            autoHideDuration={4000}        // disparaît après 4 secondes
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          >
+            <Alert onClose={handleClose} severity={snack.severity}>
+              {snack.message}
+            </Alert>
+          </Snackbar>
 
         </Box>
 
