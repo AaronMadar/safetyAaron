@@ -2,8 +2,7 @@ import { styled, alpha } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import { useContext } from 'react';
-import DbContext from '@/context/DbContext';
+
 
 
 // syntaxe courte pour creer un composant material ui appele search
@@ -47,7 +46,7 @@ export default function SearchBar({ onSearch }: { onSearch?: (term: string) => v
 
   const handleChange = (e) => {
 
-    onSearch?.(e.target.value);
+    onSearch?.(e.target.value); 
 
   }
 
