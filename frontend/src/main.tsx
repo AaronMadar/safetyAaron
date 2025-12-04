@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import ThemeProviderCustom from "@/context/theme-context";
-import DataFormProvider from "@/context/dataform-context";
-import { DbProvider } from "@/context/db-context";
+import ThemeProviderCustom from "@/context/ThemeContext";
+import DataFormProvider from "@/context/DataformContext";
+import { DbProvider } from "@/context/DbContext";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import PageForm from "@/pages/form-page";
 import DashBoard from "@/pages/dashboard";

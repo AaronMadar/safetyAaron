@@ -1,6 +1,6 @@
-import Card from "@/components/component-dashboard/card";
-import Header from "@/components/component-layout/header";
-import DbContext from "@/context/db-context";
+import Card from "@/components/dashboard/card";
+import Header from "@/components/layout/header";
+import DbContext from "@/context/DbContext";
 import { boxCardCss } from "@/style/style";
 import { Box } from "@mui/material";
 import { useContext , useState } from "react";
