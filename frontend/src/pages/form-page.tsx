@@ -14,7 +14,6 @@ import DateField from "@/components/form/date";
 import { mainBoxCss, innerLeftBoxCss, innerRightBoxCss, buttonSubmitCss } from "@/style/style";
 import { useContext, useState } from "react";
 import { DataForm } from "@/context/DataformContext";
-import DbContext from "@/context/DbContext";
 import type { snackType } from "@/types/snack-type";
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
@@ -25,7 +24,7 @@ import Alert from '@mui/material/Alert';
 
 export default function PageForm() {
 
-  const { add } = useContext(DbContext);
+  
   const { data, resetForm } = useContext(DataForm);
   const [snack, setSnack] = useState<snackType>({
     open: false,
@@ -45,7 +44,23 @@ export default function PageForm() {
       return;
     }
 
-    add(data);
+    try{
+      fetch('http://localhost:3000/safety-event/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),})
+    }
+    catch(error){
+      setSnack({
+        open: true, 
+        message:` שגיאה בשליחת האירוע. אנא נסה שוב מאוחר יותר. ${error}`,
+        severity: "error"
+      });
+      return;
+    }    
+    
     resetForm();
     setSnack({
       open: true,
