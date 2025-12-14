@@ -1,9 +1,8 @@
 import Card from "@/components/dashboard/card";
 import Header from "@/components/layout/header";
-import DbContext from "@/context/DbContext";
 import { boxCardCss } from "@/style/style";
 import { Box } from "@mui/material";
-import { useContext , useState } from "react";
+import { useEffect, useState } from "react";
 import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
 
 /**
@@ -15,7 +14,26 @@ import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
  * 4. place est un array, mais Card attend un string, donc on convertit avec join()
  */
 export default function DashBoard() {
-  const { dbLocal } = useContext(DbContext);
+
+const [data, setData] = useState<SafetyIncidentWithId[]>([]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      const dbEvent = await fetch("http://localhost:3000/safety-event");
+      const jsonData = await dbEvent.json();
+      setData(jsonData);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setData([]);
+    }
+  };
+
+  fetchData();
+}, []);
+
+
+
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   const onSearch = (term: string) => {
@@ -24,9 +42,9 @@ export default function DashBoard() {
 
   const searchContent = () => {
   const term = searchTerm.toLowerCase().trim();
-  if (!term) return dbLocal;
+  if (!term) return data
 
-  return dbLocal.filter(item => {
+  return data.filter(item => {
     // Convertit le champ place en string searchable, peu importe si c'est string ou array
     const placeText = Array.isArray(item.place) 
       ? item.place.join(' ').toLowerCase() 
