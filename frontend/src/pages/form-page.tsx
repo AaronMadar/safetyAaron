@@ -101,13 +101,13 @@ export default function PageForm() {
           <Weather />
           <Button variant="contained" endIcon={<SendIcon />} sx={buttonSubmitCss} type="submit"
             onClick={handleSubmit}>
-            Send
+            שלח
           </Button>
           <Snackbar
             open={snack.open}
             autoHideDuration={4000}        // disparaît après 4 secondes
             onClose={handleClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
           >
             <Alert onClose={handleClose} severity={snack.severity}>
               {snack.message}

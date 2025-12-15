@@ -4,10 +4,14 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Typography, Divider } from "@mui/material";
 import type {CardProps} from "@/types/cardprops-type";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import IconButton from '@mui/material/IconButton';
 
 
 export default function Card({
   activity,
+  id,
   damage,
   date,
   description,
@@ -18,6 +22,7 @@ export default function Card({
   unitActivity,
   unity,
   weather,
+  onDelete
 }: CardProps ) {
   return (
     <Accordion sx={{ width: "calc(45vw - (100vw - 100%))", direction: "rtl" ,}}>
@@ -36,6 +41,23 @@ export default function Card({
             direction: "rtl",
           }}
         >
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();    
+                onDelete(id)
+                             
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();                
+              }}
+            >
+              <EditIcon />
+</IconButton>          </Box>
           {/* יחידה */}
           <Box sx={{ display: "flex", flexDirection: "column" }}>
             <Typography variant="subtitle1" fontWeight="bold">

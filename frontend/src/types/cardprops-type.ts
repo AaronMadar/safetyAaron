@@ -1,5 +1,6 @@
 type CardProps = {
   activity: string;
+  id: number;
   damage: string;
   date: string;
   description: string;
@@ -10,6 +11,7 @@ type CardProps = {
   unitActivity: string;
   unity: string;
   weather: string;
+  onDelete: React.Dispatch<React.SetStateAction<any>>;
 };
 
 
