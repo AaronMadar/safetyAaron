@@ -16,9 +16,11 @@ export default function DateField() {
         <DatePicker
           label={<span dir='rtl'>תאריך האירוע</span>}
           minDate={dayjs()}
+          format="ddd DD/MM/YYYY"
           value={data.date ? dayjs(data.date) : null}
           sx={{ textAlign: 'right', direction: 'ltr' }}
-          onChange={(value) => { handleValue('date', value ? value.toISOString() : ""); }} />
+          onChange={(value) => { handleValue('date', value ? value.toISOString() : ""); console.log(value);
+           }} />
       </DemoContainer>
     </LocalizationProvider>
 
