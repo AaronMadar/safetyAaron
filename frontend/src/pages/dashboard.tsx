@@ -9,6 +9,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { fetchDelete } from "@/functions/fetchDelete";
 import dayjs from "dayjs";
+import "dayjs/locale/he";
 
 export default function DashBoard() {
   const [data, setData] = useState<SafetyIncidentWithId[]>([]);
@@ -96,7 +97,7 @@ export default function DashBoard() {
             id={x.id}
             activity={x.activity}
             damage={x.damage}
-            date={dayjs(x.date).format("dddd DD/MM/YYYY")}            
+            date={dayjs(x.date).locale("he").format("dddd DD/MM/YYYY")}            
             description={x.description}
             kindOfIncident={x.kindOfIncident}
             place={Array.isArray(x.place) ? x.place.join(", ") : x.place}

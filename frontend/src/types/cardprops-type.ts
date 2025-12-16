@@ -12,6 +12,7 @@ type CardProps = {
   unity: string;
   weather: string;
   onDelete: React.Dispatch<React.SetStateAction<any>>;
+  onUpdate?: React.Dispatch<React.SetStateAction<any>>; 
 };
 
 
