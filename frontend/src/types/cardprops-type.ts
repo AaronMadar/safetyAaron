@@ -5,7 +5,7 @@ type CardProps = {
   date: string;
   description: string;
   kindOfIncident: string;
-  place: string;
+  place: string | string[];
   severityIncident: string;
   severityInjurie: string;
   unitActivity: string;
