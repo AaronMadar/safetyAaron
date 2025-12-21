@@ -8,8 +8,7 @@ import type { snackType } from "@/types/snack-type";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { fetchDelete } from "@/functions/fetchDelete";
-import dayjs from "dayjs";
-import "dayjs/locale/he";
+import type { CardProps } from "@/types/cardprops-type";
 
 export default function DashBoard() {
   const [data, setData] = useState<SafetyIncidentWithId[]>([]);
@@ -32,58 +31,46 @@ export default function DashBoard() {
         setData([]);
       }
     };
-
     fetchData();
   }, []);
 
-    const onSearch = (term: string) => {
-    setSearchTerm(term);
-  };
+  const onSearch = (term: string) => setSearchTerm(term);
 
   const searchContent = () => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return data;
 
     return data.filter((item) => {
-      const placeText = Array.isArray(item.place)
-        ? item.place.join(" ").toLowerCase()
-        : (item.place || "")
-
+      const placeText = Array.isArray(item.place) ? item.place.join(" ") : (item.place || "");
       const searchIn = [
-        item.activity,
-        item.damage,
-        item.description,
-        item.kindOfIncident,
-        placeText,
-        item.severityIncident,
-        item.severityInjurie,
-        item.unitActivity,
-        item.unity,
-        item.weather,
-      ]
-        .join(" ")
-        .toLowerCase();
-
+        item.activity, item.damage, item.description, item.kindOfIncident,
+        placeText, item.severityIncident, item.severityInjurie,
+        item.unitActivity, item.unity, item.weather,
+      ].join(" ").toLowerCase();
       return searchIn.includes(term);
     });
   };
 
-  const handleCloseSnack = () => {
-    setSnack((prev) => ({ ...prev, open: false }));
-  };
+  const handleCloseSnack = () => setSnack((prev) => ({ ...prev, open: false }));
 
   const handleDelete = async (id: number) => {
     const result = await fetchDelete(id);
-
-    setSnack({    
-      open: true,
-      severity: result.bool ? "success" : "error",
-      message: result.message,
-    });
-
+    setSnack({ open: true, severity: result.bool ? "success" : "error", message: result.message });
     if (result.bool) {
       setData((prev) => prev.filter((item) => item.id !== id));
     }
+  };
+
+  // CORRECTION ICI : On force TypeScript à accepter l'objet mis à jour
+  const handleUpdateEvent = (id: string, updatedData: Partial<CardProps>) => {
+    const numId = Number(id);
+    setData((prevData) =>
+      prevData.map((event) =>
+        event.id === numId 
+          ? ({ ...event, ...updatedData } as SafetyIncidentWithId) 
+          : event
+      )
+    );
   };
 
   return (
@@ -94,32 +81,18 @@ export default function DashBoard() {
         {searchContent().map((x) => (
           <Card
             key={x.id}
-            id={x.id}
-            activity={x.activity}
-            damage={x.damage}
-            date={dayjs(x.date).locale("he").format("dddd DD/MM/YYYY")}            
-            description={x.description}
-            kindOfIncident={x.kindOfIncident}
-            place={Array.isArray(x.place) ? x.place.join(", ") : x.place}
-            severityIncident={x.severityIncident}
-            severityInjurie={x.severityInjurie}
-            unitActivity={x.unitActivity}
-            unity={x.unity}
-            weather={x.weather}
+            {...x} 
+            /* IMPORTANT : On passe 'x.date' (ISO) et 'x.place' (Array) sans les transformer.
+               La Card recevra donc les types originaux et s'occupera du visuel.
+            */
             onDelete={handleDelete}
+            onUpdate={(updatedData) => handleUpdateEvent(String(x.id), updatedData)}
           />
         ))}
       </Box>
 
-      <Snackbar
-        open={snack.open}
-        autoHideDuration={4000}
-        onClose={handleCloseSnack}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert onClose={handleCloseSnack} severity={snack.severity}>
-          {snack.message}
-        </Alert>
+      <Snackbar open={snack.open} autoHideDuration={4000} onClose={handleCloseSnack} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
+        <Alert onClose={handleCloseSnack} severity={snack.severity}>{snack.message}</Alert>
       </Snackbar>
     </Box>
   );

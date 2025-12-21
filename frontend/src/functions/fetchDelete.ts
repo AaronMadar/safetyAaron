@@ -10,21 +10,20 @@ export async function fetchDelete(
       return {
         open: true,
         bool: false,
-        message: `Failed to delete item with id ${id}`,
+        message: `נכשלה מחיקת הפריט עם המזהה  ${id}`,
       };
     }
 
     return {
       open: true,
       bool: true,
-      message: "Item deleted successfully",
+      message: "הפריט נמחק בהצלחה",
     };
   } catch (error) {
     return {
       open: true,
       bool: false,
-      message: `Error deleting item with id ${id}`,
-    };
+      message: `שגיאה במחיקת הפריט עם המזהה ${id}`,
+    };  
   }
 }
-  
