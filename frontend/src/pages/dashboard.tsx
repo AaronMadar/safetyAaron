@@ -1,18 +1,32 @@
 import Card from "@/components/dashboard/card";
 import Header from "@/components/layout/header";
 import { boxCardCss } from "@/style/style";
-import { Box } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
 import type { snackType } from "@/types/snack-type";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { fetchDelete } from "@/functions/fetchDelete";
-import type { CardProps } from "@/types/cardprops-type";
+
+// Constants
+const API_BASE_URL = 'http://localhost:3000';
+const API_ENDPOINTS = {
+  SAFETY_EVENTS: `${API_BASE_URL}/safety-event`,
+} as const;
+
+const MESSAGES = {
+  LOADING_ERROR: "שגיאה בטעינת הנתונים",
+  DELETE_SUCCESS: "האירוע נמחק בהצלחה",
+  DELETE_ERROR: "שגיאה במחיקת האירוע",
+} as const;
 
 export default function DashBoard() {
+  // State management
   const [data, setData] = useState<SafetyIncidentWithId[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [snack, setSnack] = useState<snackType>({
     open: false,
@@ -23,76 +37,158 @@ export default function DashBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dbEvent = await fetch("http://localhost:3000/safety-event");
-        const jsonData = await dbEvent.json();
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetch(API_ENDPOINTS.SAFETY_EVENTS);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const jsonData = await response.json();
         setData(jsonData);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError(MESSAGES.LOADING_ERROR);
         setData([]);
+      } finally {
+        setIsLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
-  const onSearch = (term: string) => setSearchTerm(term);
+  const onSearch = useCallback((term: string) => setSearchTerm(term), []);
 
-  const searchContent = () => {
+  // Memoized filtered data to avoid unnecessary recalculations
+  const filteredData = useMemo(() => {
     const term = searchTerm.toLowerCase().trim();
     if (!term) return data;
 
     return data.filter((item) => {
       const placeText = Array.isArray(item.place) ? item.place.join(" ") : (item.place || "");
+      // CREATE A LONG STRING WITH ALL THE DATA OF EACH OBJECT AND CHECK IF THE SEARCH TERM IS IN THE STRING
       const searchIn = [
         item.activity, item.damage, item.description, item.kindOfIncident,
         placeText, item.severityIncident, item.severityInjurie,
-        item.unitActivity, item.unity, item.weather,
+        item.unitActivity, item.unity, item.weather,item.date.toString()
       ].join(" ").toLowerCase();
       return searchIn.includes(term);
     });
-  };
+  }, [data, searchTerm]);
 
-  const handleCloseSnack = () => setSnack((prev) => ({ ...prev, open: false }));
+  const handleCloseSnack = useCallback(() => {
+    setSnack((prev) => ({ ...prev, open: false }));
+  }, []);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = useCallback(async (id: number) => {
     const result = await fetchDelete(id);
-    setSnack({ open: true, severity: result.bool ? "success" : "error", message: result.message });
+    setSnack({
+      open: true,
+      severity: result.bool ? "success" : "error",
+      message: result.message
+    });
     if (result.bool) {
       setData((prev) => prev.filter((item) => item.id !== id));
     }
-  };
+  }, []);
 
-  // CORRECTION ICI : On force TypeScript à accepter l'objet mis à jour
-  const handleUpdateEvent = (id: string, updatedData: Partial<CardProps>) => {
+  // Update event handler with proper typing
+  const handleUpdateEvent = useCallback((id: string, updatedData: Partial<SafetyIncidentWithId>) => {
     const numId = Number(id);
     setData((prevData) =>
       prevData.map((event) =>
-        event.id === numId 
-          ? ({ ...event, ...updatedData } as SafetyIncidentWithId) 
+        event.id === numId
+          ? { ...event, ...updatedData }
           : event
       )
     );
-  };
+  }, []);
+
+  // Loading state
+  if (isLoading) {
+    return (
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '200px',
+        flexDirection: 'column',
+        gap: 2
+      }}>
+        <CircularProgress />
+        <Typography>טוען נתונים...</Typography>
+      </Box>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '200px',
+        flexDirection: 'column',
+        gap: 2
+      }}>
+        <Alert severity="error" sx={{ maxWidth: 400 }}>
+          {error}
+        </Alert>
+      </Box>
+    );
+  }
 
   return (
-    <Box sx={{ scrollbarGutter: "stable both-edges" }}>
+    <Box
+      sx={{ scrollbarGutter: "stable both-edges" }}
+      component="main"
+      role="main"
+      aria-label="Safety incidents dashboard"
+    >
       <Header title={"רשימת האירועים"} showSearch={true} onSearch={onSearch} />
 
-      <Box sx={boxCardCss}>
-        {searchContent().map((x) => (
-          <Card
-            key={x.id}
-            {...x} 
-            /* IMPORTANT : On passe 'x.date' (ISO) et 'x.place' (Array) sans les transformer.
-               La Card recevra donc les types originaux et s'occupera du visuel.
-            */
-            onDelete={handleDelete}
-            onUpdate={(updatedData) => handleUpdateEvent(String(x.id), updatedData)}
-          />
-        ))}
+      <Box
+        sx={boxCardCss}
+        component="section"
+        aria-label="Incidents list"
+        aria-live="polite"
+        aria-atomic="false"
+      >
+        {filteredData.length === 0 ? (
+          <Box sx={{
+            textAlign: 'center',
+            py: 4,
+            color: 'text.secondary'
+          }}>
+            <Typography variant="h6">
+              {searchTerm ? "לא נמצאו תוצאות לחיפוש" : "אין אירועים"}
+            </Typography>
+          </Box>
+        ) : (
+          filteredData.map((x) => (
+            <Card
+              key={x.id}
+              {...x}
+              onDelete={handleDelete}
+              onUpdate={(updatedData) => handleUpdateEvent(String(x.id), updatedData)}
+            />
+          ))
+        )}
       </Box>
 
-      <Snackbar open={snack.open} autoHideDuration={4000} onClose={handleCloseSnack} anchorOrigin={{ vertical: "top", horizontal: "center" }}>
-        <Alert onClose={handleCloseSnack} severity={snack.severity}>{snack.message}</Alert>
+      <Snackbar
+        open={snack.open}
+        autoHideDuration={4000}
+        onClose={handleCloseSnack}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseSnack} severity={snack.severity}>
+          {snack.message}
+        </Alert>
       </Snackbar>
     </Box>
   );
