@@ -1,6 +1,6 @@
 import Card from "@/components/dashboard/card";
 import Header from "@/components/layout/header";
-import { boxCardCss } from "@/style/style";
+import { incidentsSection } from "@/style/pages/dashboard";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import type { SafetyIncidentWithId } from "@/types/safety-incident-type";
@@ -10,10 +10,8 @@ import Alert from "@mui/material/Alert";
 import { fetchDelete } from "@/functions/fetchDelete";
 
 // Constants
-const API_BASE_URL = 'http://localhost:3000';
-const API_ENDPOINTS = {
-  SAFETY_EVENTS: `${API_BASE_URL}/safety-event`,
-} as const;
+const API_ENDPOINTS = 'http://localhost:3000/safety-event' as const;
+
 
 const MESSAGES = {
   LOADING_ERROR: "שגיאה בטעינת הנתונים",
@@ -40,7 +38,7 @@ export default function DashBoard() {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetch(API_ENDPOINTS.SAFETY_EVENTS);
+        const response = await fetch(API_ENDPOINTS);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -145,18 +143,13 @@ export default function DashBoard() {
   return (
     <Box
       sx={{ scrollbarGutter: "stable both-edges" }}
-      component="main"
-      role="main"
-      aria-label="Safety incidents dashboard"
+      component="main"      
     >
       <Header title={"רשימת האירועים"} showSearch={true} onSearch={onSearch} />
 
       <Box
-        sx={boxCardCss}
-        component="section"
-        aria-label="Incidents list"
-        aria-live="polite"
-        aria-atomic="false"
+        sx={incidentsSection}
+        component="section"       
       >
         {filteredData.length === 0 ? (
           <Box sx={{
